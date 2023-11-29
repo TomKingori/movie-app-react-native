@@ -15,8 +15,10 @@ export default function Cast({ cast, navigation }) {
         {cast &&
           cast.map((person, index) => {
             return (
-              <TouchableOpacity key={index} className="mr-4 items-center"
-              onPress={()=> navigation.navigate('Person', person)}
+              <TouchableOpacity
+                key={index}
+                className="mr-4 items-center"
+                onPress={() => navigation.navigate("Person", person)}
               >
                 <View className="overflow-hidden rounded-full h-20 w-20 items-center border border-neutral-500">
                   <Image
