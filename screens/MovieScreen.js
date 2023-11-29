@@ -14,6 +14,8 @@ import { ChevronLeftIcon } from "react-native-heroicons/outline";
 import { HeartIcon } from "react-native-heroicons/solid";
 import { styles, theme } from "../theme";
 import { LinearGradient } from "expo-linear-gradient";
+import Cast from "../components/cast";
+import MovieList from "../components/movieList";
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS == "ios";
@@ -23,6 +25,8 @@ export default function MovieScreen() {
   const { params: item } = useRoute();
   const [isFavourite, toggleFavourite] = useState(false);
   const navigation = useNavigation();
+  const [cast, setCast] = useState([1, 2, 3, 4, 5]);
+  const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5]);
   let movieName = "Inception";
   useEffect(() => {
     //fetch movie details using API
@@ -75,10 +79,12 @@ export default function MovieScreen() {
         <Text className="text-white text-center text-3xl font-bold tracking-wider">
           {movieName}
         </Text>
+
         {/* status, release and runtime */}
         <Text className="text-neutral-400 font-semibold text-base text-center">
           Released • 2014 • 170 min
         </Text>
+
         {/* Genres */}
         <View className="flex-row justify-center mx-4 space-x-2">
           <Text className="text-neutral-400 font-semibold text-base text-center">
@@ -100,6 +106,12 @@ export default function MovieScreen() {
           information.
         </Text>
       </View>
+
+      {/* Cast */}
+      <Cast navigation={navigation} cast={cast} />
+
+      {/* Similar movies */}
+      <MovieList title="Similar Movies" hideSeeAll={true} data={similarMovies} />
     </ScrollView>
   );
 }
