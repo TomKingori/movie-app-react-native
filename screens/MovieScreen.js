@@ -40,7 +40,7 @@ export default function MovieScreen() {
       <View className="w-full">
         <SafeAreaView
           className={
-            "absolite z-20 w-full flex-row justify-between items-center px-4" +
+            "absolute z-20 w-full flex-row justify-between items-center px-4" +
             topMargin
           }
         >
