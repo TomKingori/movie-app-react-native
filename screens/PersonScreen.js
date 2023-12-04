@@ -95,7 +95,7 @@ export default function PersonScreen() {
         <View className="my-6 mx-4 space-y-2">
           <Text className="text-white text-lg">Biography</Text>
           <Text className="text-neutral-400 tracking-wide">
-            Leonardo Wilhelm DiCapri (born November 11, 1974) is an American
+            Leonardo Wilhelm DiCaprio (born November 11, 1974) is an American
             actor and film producer. Known for his work in biographical and
             period films, he is the recipient of numerous accolades, including
             an Academy Award, a British Academy Film Award, and three Golden
