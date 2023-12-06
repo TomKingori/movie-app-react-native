@@ -17,6 +17,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Cast from "../components/cast";
 import MovieList from "../components/movieList";
 import Loading from "../components/loading";
+import { fetchMovieDetails } from "../api/moviedb";
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS == "ios";
@@ -30,9 +31,21 @@ export default function MovieScreen() {
   const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5]);
   const [loading, setLoading] = useState(false);
   let movieName = "Inception";
+
   useEffect(() => {
     //fetch movie details using API
+    console.log('itemid: ', item.id)
+    setLoading(true)
+    getMovieDetails(item.id)
   }, [item]);
+
+  const getMovieDetails = async id => {
+    const data = await fetchMovieDetails(id);
+    console.log('get movie details: ', data)
+    setLoading(false)
+  }
+
+
   return (
     <ScrollView
       contentContainerStyle={{ paddingBottom: 20 }}
