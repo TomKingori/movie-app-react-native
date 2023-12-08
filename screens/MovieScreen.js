@@ -17,7 +17,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import Cast from "../components/cast";
 import MovieList from "../components/movieList";
 import Loading from "../components/loading";
-import { fetchMovieDetails } from "../api/moviedb";
+import {
+  fallbackMoviePoster,
+  fetchMovieDetails,
+  image500,
+} from "../api/moviedb";
+import { moviesData } from "../constants";
 
 var { width, height } = Dimensions.get("window");
 const ios = Platform.OS == "ios";
@@ -31,20 +36,21 @@ export default function MovieScreen() {
   const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5]);
   const [loading, setLoading] = useState(false);
   let movieName = "Inception";
+  const [movie, setMovie] = useState({});
 
   useEffect(() => {
     //fetch movie details using API
-    console.log('itemid: ', item.id)
-    setLoading(true)
-    getMovieDetails(item.id)
+    // console.log("itemid: ", item.id);
+    setLoading(true);
+    getMovieDetails(item.id);
   }, [item]);
 
-  const getMovieDetails = async id => {
+  const getMovieDetails = async (id) => {
     const data = await fetchMovieDetails(id);
-    console.log('get movie details: ', data)
-    setLoading(false)
-  }
-
+    // console.log("get movie details: ", data);
+    if (data) setMovie(data);
+    setLoading(false);
+  };
 
   return (
     <ScrollView
@@ -78,7 +84,10 @@ export default function MovieScreen() {
         ) : (
           <View>
             <Image
-              source={require("../assets/images/moviePoster.png")}
+              // source={require("../assets/images/moviePoster.png")}
+              source={{
+                uri: image500(movie?.poster_path || fallbackMoviePoster),
+              }}
               style={{ width, height: height * 0.55 }}
             />
             <LinearGradient
@@ -95,33 +104,42 @@ export default function MovieScreen() {
       {/* Movie details */}
       <View style={{ marginTop: -(height * 0.09) }} className="space-y-3">
         <Text className="text-white text-center text-3xl font-bold tracking-wider">
-          {movieName}
+          {movie?.title}
         </Text>
 
         {/* status, release and runtime */}
-        <Text className="text-neutral-400 font-semibold text-base text-center">
-          Released • 2014 • 170 min
-        </Text>
+        {movie?.id ? (
+          <Text className="text-neutral-400 font-semibold text-base text-center">
+            {movie?.status} • {movie?.release_date} • {movie?.runtime} min
+          </Text>
+        ) : null}
 
         {/* Genres */}
         <View className="flex-row justify-center mx-4 space-x-2">
-          <Text className="text-neutral-400 font-semibold text-base text-center">
-            Action •
+        {
+          movie.genres?.map((genre, index)=>{
+            let showDot = index+1 != movie.genres.length
+            return(
+              <Text key={index} className="text-neutral-400 font-semibold text-base text-center">
+            {genre?.name} {showDot? "•": null}
           </Text>
-          <Text className="text-neutral-400 font-semibold text-base text-center">
+            )
+          })
+        }
+          
+          {/* <Text className="text-neutral-400 font-semibold text-base text-center">
             Thrill •
           </Text>
           <Text className="text-neutral-400 font-semibold text-base text-center">
             Comedy
-          </Text>
+          </Text> */}
         </View>
 
         {/* Description */}
         <Text className="text-neutral-400 mx-4 tracking-wide">
-          Inception centres on brooding “extractor” Dom Cobb (played by Leonardo
-          DiCaprio)—a thief who invades targets' dreams through a
-          chemical-induced shared dream state in order to steal valuable
-          information.
+          {
+            movie?.overview
+          }
         </Text>
       </View>
 
