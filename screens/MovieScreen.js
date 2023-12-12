@@ -19,7 +19,9 @@ import MovieList from "../components/movieList";
 import Loading from "../components/loading";
 import {
   fallbackMoviePoster,
+  fetchMovieCredits,
   fetchMovieDetails,
+  fetchSimilarMovies,
   image500,
 } from "../api/moviedb";
 import { moviesData } from "../constants";
@@ -32,7 +34,7 @@ export default function MovieScreen() {
   const { params: item } = useRoute();
   const [isFavourite, toggleFavourite] = useState(false);
   const navigation = useNavigation();
-  const [cast, setCast] = useState([1, 2, 3, 4, 5]);
+  const [cast, setCast] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5]);
   const [loading, setLoading] = useState(false);
   let movieName = "Inception";
@@ -43,6 +45,8 @@ export default function MovieScreen() {
     // console.log("itemid: ", item.id);
     setLoading(true);
     getMovieDetails(item.id);
+    getMovieCredits(item.id);
+    getSimilarMovies(item.id);
   }, [item]);
 
   const getMovieDetails = async (id) => {
@@ -50,6 +54,16 @@ export default function MovieScreen() {
     // console.log("get movie details: ", data);
     if (data) setMovie(data);
     setLoading(false);
+  };
+  const getMovieCredits = async (id) => {
+    const data = await fetchMovieCredits(id);
+    // console.log('get credits: ', data);
+    if (data && data.cast) setCast(data.cast);
+  };
+  const getSimilarMovies = async (id) => {
+    const data = await fetchSimilarMovies(id);
+    // console.log("get similar: ", data);
+    if (data && data.results) setSimilarMovies(data.results);
   };
 
   return (
@@ -110,23 +124,24 @@ export default function MovieScreen() {
         {/* status, release and runtime */}
         {movie?.id ? (
           <Text className="text-neutral-400 font-semibold text-base text-center">
-            {movie?.status} • {movie?.release_date} • {movie?.runtime} min
+            {movie?.status} • {movie?.release_date.split('-')[0]} • {movie?.runtime} min
           </Text>
         ) : null}
 
         {/* Genres */}
         <View className="flex-row justify-center mx-4 space-x-2">
-        {
-          movie.genres?.map((genre, index)=>{
-            let showDot = index+1 != movie.genres.length
-            return(
-              <Text key={index} className="text-neutral-400 font-semibold text-base text-center">
-            {genre?.name} {showDot? "•": null}
-          </Text>
-            )
-          })
-        }
-          
+          {movie.genres?.map((genre, index) => {
+            let showDot = index + 1 != movie.genres.length;
+            return (
+              <Text
+                key={index}
+                className="text-neutral-400 font-semibold text-base text-center"
+              >
+                {genre?.name} {showDot ? "•" : null}
+              </Text>
+            );
+          })}
+
           {/* <Text className="text-neutral-400 font-semibold text-base text-center">
             Thrill •
           </Text>
@@ -137,9 +152,7 @@ export default function MovieScreen() {
 
         {/* Description */}
         <Text className="text-neutral-400 mx-4 tracking-wide">
-          {
-            movie?.overview
-          }
+          {movie?.overview}
         </Text>
       </View>
 
@@ -147,11 +160,11 @@ export default function MovieScreen() {
       <Cast navigation={navigation} cast={cast} />
 
       {/* Similar movies */}
-      {/* <MovieList
+      <MovieList
         title="Similar Movies"
         hideSeeAll={true}
         data={similarMovies}
-      /> */}
+      />
     </ScrollView>
   );
 }

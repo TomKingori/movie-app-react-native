@@ -10,13 +10,13 @@ import {
 import React from "react";
 import { styles } from "../theme";
 import { useNavigation } from "@react-navigation/native";
-import { fallbackMoviePoster, image185 } from "../api/moviedb";
+import { fallbackMoviePoster, image185, image500, image342 } from "../api/moviedb";
 
 var { width, height } = Dimensions.get("window");
 
 export default function MovieList({ title, data, hideSeeAll }) {
   const navigation = useNavigation();
-  let movieName = "Inception";
+  // let movieName = "Inception";
   return (
     <View className="mb-8 space-y-4">
       <View className="mx-4 flex-row justify-between items-center">
@@ -40,7 +40,7 @@ export default function MovieList({ title, data, hideSeeAll }) {
           return (
             <TouchableWithoutFeedback
               key={index}
-              onPress={() => navigation.push("Movie")}
+              onPress={() => navigation.push("Movie", item)}
             >
               <View className="space-y-1 mr-4">
                 <Image
@@ -53,9 +53,7 @@ export default function MovieList({ title, data, hideSeeAll }) {
                   className="rounded-3xl"
                 />
                 <Text className="text-neutral-300 ml-1">
-                  {item.title.length > 16
-                    ? item.title.slice(0, 16) + "..."
-                    : item.title}
+                  {item.title && item.title.length>14? item.title.slice(0,14)+'...': item.title}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
