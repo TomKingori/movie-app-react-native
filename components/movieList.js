@@ -23,7 +23,7 @@ export default function MovieList({ title, data, hideSeeAll }) {
         <Text className="text-white text-xl">{title}</Text>
         {!hideSeeAll && (
           <TouchableOpacity>
-            <Text style={styles.text} className="text-lg">
+            <Text style={styles.text} className="text-lg" onPress={() => navigation.navigate("MoviesTiles")}>
               See All
             </Text>
           </TouchableOpacity>
