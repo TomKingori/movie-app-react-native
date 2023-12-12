@@ -7,6 +7,7 @@ const apiBaseUrl = "https://api.themoviedb.org/3";
 const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
 const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
 const topRatedMoviesEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${apiKey}`;
+const searchMoviesEndpoint = `${apiBaseUrl}/search/movie?api_key=${apiKey}`;
 
 //dynamic endpoints
 const movieDetailsEndpoint = (id) =>
@@ -20,6 +21,7 @@ const personDetailsEndpoint = (id) =>
   `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
 const personMoviesEndpoint = (id) =>
   `${apiBaseUrl}/person/${id}/movie_credits?api_key=${apiKey}`;
+
 
 // functions to get images of different widths
 export const image500 = (path) =>
@@ -81,4 +83,8 @@ export const fetchPersonDetails = (id) => {
 
 export const fetchpersonMovies = (id) => {
   return apiCall(personMoviesEndpoint(id));
+};
+
+export const searchMovies = (params) => {
+  return apiCall(searchMoviesEndpoint, params);
 };

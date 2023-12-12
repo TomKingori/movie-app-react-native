@@ -100,7 +100,7 @@ export default function MovieScreen() {
             <Image
               // source={require("../assets/images/moviePoster.png")}
               source={{
-                uri: image500(movie?.poster_path || fallbackMoviePoster),
+                uri: image500(movie?.poster_path ) || fallbackMoviePoster,
               }}
               style={{ width, height: height * 0.55 }}
             />
@@ -157,14 +157,14 @@ export default function MovieScreen() {
       </View>
 
       {/* Cast */}
-      <Cast navigation={navigation} cast={cast} />
+      {cast.length>0 && <Cast navigation={navigation} cast={cast} />}
 
       {/* Similar movies */}
-      <MovieList
+      {similarMovies.length>0 && <MovieList
         title="Similar Movies"
         hideSeeAll={true}
         data={similarMovies}
-      />
+      />}
     </ScrollView>
   );
 }
