@@ -20,7 +20,7 @@ const { width, height } = Dimensions.get("window");
 
 export default function SearchScreen() {
   const navigation = useNavigation();
-  const [results, setResults] = useState([1, 2, 3, 4]);
+  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   let movieName = "Inception";
 
