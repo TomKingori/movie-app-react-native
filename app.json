@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon1.png",
         "backgroundColor": "#221f19"
-      }
+      },
+      "package": "com.tkingori.TKMovies"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7b5bbcdf-aaea-47bb-ada8-e759d77c005e"
+      }
     }
   }
 }
