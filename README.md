@@ -1,12 +1,20 @@
-# Movie-APP-React-Native
+# Movie-App-React-Native
 
 ## Get Started
 
 install dev dependencies
 
-### `npm install` or `yarn install`
+```
+npm install
+```
 
+or
 
-
+```
+yarn install
+```
+ 
 ## Run The App
-#### `npx expo start`
+```
+npx expo start
+```
